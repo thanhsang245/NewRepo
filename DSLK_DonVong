@@ -352,7 +352,7 @@ node chenSauq(node q, int x)
 	q->next = p;
 	return q;
 }
-//xoa All phan tu x dau tien tim thay but chua the xoa neu phan tu can xoa nam o dau
+//xoa All phan tu x 
 void xoaX_AlL(list& ds, int x)
 {
 	if (ds.head->data == x)
