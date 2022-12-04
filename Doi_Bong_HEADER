@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+#define MAX 100
+struct DoiBong
+{
+	char TenDoiBong[20];
+	int giaTri;
+	int Soluong;
+};
+struct list
+{
+	DoiBong a[MAX];
+	int soluong;
+};
+void menu();
+void xuatList_DB(list ds);
+void nhapList_DB(list& ds);
+void xuatDoiBong(DoiBong db);
+void nhapDoiBong(DoiBong& db);
+void SapxepGiam(list& ds);
+int tongAllCauThu(list ds);
+int demDoiBong_CtHon10(list ds);
+void xoaNhoHonX(list& ds, int x);
+void tachTheoGiaTri(list& ds, list& dsX, list& khac, int x);
+void xuatDoiBong_CTMax(list ds);
