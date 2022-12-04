@@ -1,0 +1,170 @@
+#include"Header.h"
+void nhapDoiBong(DoiBong& db)
+{
+	cout << "\nNhap ten doi bong: ";
+	cin.ignore();
+	cin.getline(db.TenDoiBong,20);
+	cout << "\n Nhap So luong cau thu trong doi: ";
+	cin >> db.Soluong;
+	cout << "\nNhap Gia tri cua doi bong: ";
+	cin >> db.giaTri;
+}
+void xuatDoiBong(DoiBong db)
+{
+	cout << "\nTen doi bong: "<<db.TenDoiBong;
+	cout << "\tSo luong: "<<db.Soluong;
+	cout << "\tGia tri: "<< db.giaTri;
+}
+void nhapList_DB(list& ds)
+{
+	cout << "\nNhap so luong doi bong: "; cin >> ds.soluong;
+	for (int i = 0; i < ds.soluong; i++)
+	{
+		nhapDoiBong(ds.a[i]);
+	}
+}
+void xuatList_DB(list ds)
+{
+	for (int i = 0; i < ds.soluong; i++)
+	{
+		xuatDoiBong(ds.a[i]);
+	}
+}
+void menu()
+{
+	int chon,x;
+	list a,dsX,khac;
+	do
+	{
+		cout << "\n0.Thoat!";
+		cout << "\n1.Nhap danh sach Doi bong.";
+		cout << "\n2.Xuat danh sach Doi bong.";
+		cout << "\n3.Sap xep giam dan theo so luong cau thu.";
+		cout << "\n4.Tong cac cau thu cua tat ca doi bong.";
+		cout << "\n5.Dem so luong doi bang co so luong cau thu tren 10.";
+		cout << "\n6.Xoa doi bong co so luong nho hon x.";
+		cout << "\n7.Tach mot danh sach cac doi bong co gia tri bang x. ";
+		cout << "\n8.Xuat ra doi bong so luong cau thu lon nhat.";
+		cout << "\nChon 1 chuc nang: "; cin >> chon;
+		switch (chon)
+		{
+		case 0:
+			break;
+		case 1:
+			nhapList_DB(a);
+			break;
+		case 2:
+			xuatList_DB(a);
+			break;
+		case 3:
+			SapxepGiam(a);
+			xuatList_DB(a);
+				break;
+		case 4:
+			cout << "\nTong cac cau thu la: " <<  tongAllCauThu(a);
+			break;
+		case 5:
+			if (demDoiBong_CtHon10(a) == 0)
+				cout << "\nKhong co doi bong nao co so luong cau thu tren 10.";
+			else
+				cout << "\nSo luong doi bong co cau thu tren 10 la: " << demDoiBong_CtHon10(a);
+			break;
+		case 6:
+			cout << "\nNhap x de xoa cac doi bong co so luong cau thu nho hon."; cin >>x;
+			xoaNhoHonX(a, x);
+			xuatList_DB(a);
+			break;
+		case 7:
+			cout << "\nNhap gia tri x de tach danh sach moi: "; cin >> x;
+			tachTheoGiaTri(a, dsX,khac ,x);
+			cout << "\nDanh sach cac doi bong co gia tri bang X la :";
+			xuatList_DB(dsX);
+			cout << "\nDanh sach con lai: ";
+			xuatList_DB(khac);
+			break;
+		case 8:
+			xuatDoiBong_CTMax(a);
+			break;
+		default:
+			cout<<"\nBan da nhap sai.Vui long nhap lai!";
+		}
+	} while (chon!=0);
+}
+void SapxepGiam(list& ds)
+{
+	for (int i = 0; i < ds.soluong-1; i++)
+		for (int j = i+1; j <ds.soluong; j++)
+			if (ds.a[i].Soluong < ds.a[j].Soluong)
+				swap(ds.a[i], ds.a[j]);
+}
+int tongAllCauThu(list ds)
+{
+	int sum = 0;
+	for (int i = 0; i < ds.soluong; i++)
+	{
+		sum += ds.a[i].Soluong;
+	}
+	return sum;
+}
+int demDoiBong_CtHon10(list ds)
+{
+	int dem = 0;
+	for (int i = 0; i < ds.soluong; i++)
+	{
+		if (ds.a[i].Soluong > 10)
+			dem++;
+	}
+	if (dem == 0)
+		return 0;
+	return dem;
+}
+void xoaNhoHonX(list& ds, int x)
+{
+	for (int i = 0; i < ds.soluong; i++)
+		if(ds.a[i].Soluong<x)
+			for (int j = i; j < ds.soluong; j++)
+				ds.a[j] = ds.a[j + 1];
+		ds.soluong--;
+}
+void tachTheoGiaTri(list& ds, list& dsX,list &khac,int x)
+{
+	int i = 0;
+	dsX.soluong = 0;
+	khac.soluong = 0;
+	while (ds.soluong!=0)
+	{
+		if (ds.a[i].giaTri == x)
+		{
+			dsX.a[dsX.soluong++] = ds.a[i];
+			ds.soluong--;
+		}
+		else
+		{
+			khac.a[khac.soluong++] = ds.a[i];
+			ds.soluong--;
+		}
+		i++;
+	}
+}
+void xuatDoiBong_CTMax(list ds)
+{
+	int max = ds.a[0].Soluong;
+	for (int i = 1; i < ds.soluong; i++)
+	{
+		if (max < ds.a[i].Soluong)
+			max = ds.a[i].Soluong;
+	}
+	for (int j = 0; j < ds.soluong; j++)
+	{
+		if (max == ds.a[j].Soluong)
+		{
+			xuatDoiBong(ds.a[j]);
+			break;
+		}
+	}
+}
+int main()
+{
+	menu();
+	return 0;
+}
