@@ -1,0 +1,200 @@
+#include"Header.h"
+node New_Node(int number)//Ham tao node
+{
+	node NewNode;
+	NewNode = new NODE;
+	NewNode->data = number;
+	NewNode->next = NULL;
+	return NewNode;
+}
+int Empty(node list)//kiem tra rong
+{
+	return (list == NULL ? 1 : 0);
+}
+node AddNodef(node &list, int x)//tao node them dau
+{
+	node p = New_Node(x);
+	if (Empty(list))
+		list = p;
+	else
+	{
+		p->next = list;
+		list = p;
+	}
+	return list;
+}
+void AddList(node& list)//them node vao danh sach
+{
+	list = NULL;
+	int x;
+	do
+	{
+		cout << "Nhap x khac -99: ";
+		cin >> x;
+		if (x == -99)
+			break;
+		AddNodeT(list, x);
+	} while (1);
+}
+void PrintList(node list)//xuat danh sach
+{
+	node p = list;
+	for ( p; p!=NULL; p=p->next)
+	{
+		cout << p->data << " ";
+	}
+} 
+void khoitao(node& list)
+{
+	list = NULL;
+}
+node AddNodeT(node& list, int x)//tao node de them sau
+{
+	node p;
+	p = New_Node(x);
+	if (Empty(list))
+		list = p;
+	else
+	{
+		node q = list;
+		while (q->next != NULL)
+		{
+			q = q->next;
+		}
+		q->next = p;
+	}
+	return list;
+}
+node AddT_Q(node& q, node r)//Ham them 1 node vao trong danh sach
+{
+	node p =r;
+	if (Empty(q))
+		q = p;
+	else
+	{
+		node t = q;
+		while (t->next != NULL)
+			t = t->next;
+			t->next = p;
+	}
+	return q;
+}
+void tachChanLe(node& list, node& chan, node& le)//Tach danh sach
+{
+	node p;
+	khoitao(chan);
+	khoitao(le);
+	while (list != NULL)
+	{
+		p = list;
+		list = list->next;
+		p->next = NULL;
+		if (p->data % 2 == 0)
+			AddT_Q(chan, p);
+		else
+			AddT_Q(le, p);
+	}
+	khoitao(list);
+}
+void daoDanhSach(node& list)
+{
+	node p ;
+	node pS = NULL;
+	while (list!=NULL)
+	{
+		p = list;
+		list = list->next;
+		p->next = pS;
+		pS = p;
+	}
+	list = pS;
+}
+void Gop2DanhSach(node& list, node& list1, node& list2)
+{
+	khoitao(list);
+	node p;
+	while (list1 != NULL || list2 != NULL)
+	{
+		if (!Empty(list1)&&!Empty(list2))
+		{
+			if (list1->data < list2->data)
+			{
+				p = list1;
+					list1 = list1->next;
+					p->next = NULL;
+					AddT_Q(list, p);
+			}
+			else if (list1->data > list2->data)
+			{
+				p = list2;
+				list2 = list2->next;
+				p->next = NULL;
+				AddT_Q(list, p);
+			}
+		}
+		else
+		{
+			
+			if(list1!=NULL)
+			{
+				p = list1;
+				list1 = list1->next;
+				p->next = NULL;
+				AddT_Q(list, p);
+			}
+			else if(list2!=NULL)
+			{
+				p = list2;
+				list2 = list2->next;
+				p->next = NULL;
+				AddT_Q(list, p);
+			}
+		}
+	}
+	khoitao(list1);
+	khoitao(list2);
+}
+void Delete_Head(node& list)
+{
+	node p=list;
+	list = p->next;
+	delete p;
+}
+void Delete_Cuoi(node& list)
+{
+	node p=list;
+	if (list->next == NULL)
+	{
+		delete p;
+		list = NULL;
+	}
+	else
+	{
+		node q = list;
+		while (q->next->next != NULL)
+		{
+			q = q->next;
+		}
+		p = q->next;
+		delete p;
+		q->next = NULL;
+	}
+}
+void Delete_Snode(node& list,int x)
+{
+	node p ;
+	if (!Empty(list->next))
+	{
+		while (list->next != NULL)
+		{
+			if (list->data == x)
+			{
+				p = list;
+				list = list->next;
+				Delete_Head(p);
+			}
+			else
+				list = list->next;
+		}
+	}
+}
